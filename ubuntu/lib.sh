@@ -220,14 +220,19 @@ powerstrip-base-install-run-powerstrip-flocker() {
   powerstrip-base-install-ensure-file /etc/flocker/my_address
   powerstrip-base-install-ensure-file /etc/flocker/master_address
 
+  # wait for the flocker-zfs-agent to have started
   powerstrip-base-install-wait-for-file /etc/flocker/volume.json
+  powerstrip-base-install-wait-for-container flocker-zfs-agent
 
   # configure from files - it is up to the vagrant installation to write these
   local IP=`cat /etc/flocker/my_address`
   local CONTROLIP=`cat /etc/flocker/master_address`
   local HOSTID=$(powerstrip-base-install-get-flocker-uuid)
 
-  powerstrip-base-install-stop-container flocker-control
+  # this is needed in order to allow us to write data to the flocker ZFS
+  zfs set readonly=off flocker
+
+  powerstrip-base-install-stop-container powerstrip-flocker
   
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
   docker run --name powerstrip-flocker \
