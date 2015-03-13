@@ -342,4 +342,6 @@ powerstrip-base-install-setup() {
   powerstrip-base-install-docker
   powerstrip-base-install-configure-docker
   powerstrip-base-install-sysconfig
+  sleep 5
+  echo "powerstrip base setup done"
 }
