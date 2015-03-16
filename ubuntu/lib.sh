@@ -186,8 +186,6 @@ powerstrip-base-install-run-flocker-zfs-agent() {
   docker run --rm --name flocker-zfs-agent --privileged \
     -v /etc/flocker:/etc/flocker \
     -v /var/run/docker.real.sock:/var/run/docker.sock \
-    -v /dev/zfs:/dev/zfs \
-    -v /flocker:/flocker \
     -v /root/.ssh:/root/.ssh \
     $ZFS_AGENT_IMAGE \
     flocker-zfs-agent $IP $CONTROLIP
