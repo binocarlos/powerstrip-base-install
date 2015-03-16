@@ -63,6 +63,7 @@ powerstrip-base-install-configure-docker() {
   cat << EOF > /etc/default/docker
 DOCKER_OPTS="-H unix://$REAL_DOCKER_SOCKET --dns 8.8.8.8 --dns 8.8.4.4 $@"
 EOF
+  rm -f /etc/docker/key.json
   service docker restart
   rm -f /var/run/docker.sock
 }
