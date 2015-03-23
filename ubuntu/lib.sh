@@ -45,12 +45,15 @@ powerstrip-base-install-deps() {
 #
 
 # install docker
+# note we are also installing aufs here because devicemapper sucks
+# (as in you cannot trust devicemapper to run containers)
 powerstrip-base-install-docker() {
-  echo "Installing docker"
+  apt-get update
+  apt-get install -y linux-image-extra-$(uname -r)
   apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
   echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
   apt-get update
-  apt-get -y install lxc-docker
+  apt-get install -y aufs-tools lxc-docker
 }
 
 # Install and configure docker
@@ -61,7 +64,7 @@ powerstrip-base-install-docker() {
 powerstrip-base-install-configure-docker() {
   echo "Configuring docker"
   cat << EOF > /etc/default/docker
-DOCKER_OPTS="-H unix://$REAL_DOCKER_SOCKET --dns 8.8.8.8 --dns 8.8.4.4 $@"
+DOCKER_OPTS="-H unix://$REAL_DOCKER_SOCKET --dns 8.8.8.8 --dns 8.8.4.4 -s aufs $@"
 EOF
   rm -f /etc/docker/key.json
   service docker restart
