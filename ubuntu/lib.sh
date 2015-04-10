@@ -6,7 +6,7 @@ export FLOCKER_AGENT_PORT=${FLOCKER_AGENT_PORT:=4524}
 
 export ZFS_AGENT_IMAGE=${ZFS_AGENT_IMAGE:=lmarsden/flocker-zfs-agent:latest}
 export CONTROL_SERVICE_IMAGE=${CONTROL_SERVICE_IMAGE:=lmarsden/flocker-control:latest}
-export POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:latest}
+export POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:k8s-compat}
 export POWERSTRIP_WEAVE_IMAGE=${POWERSTRIP_WEAVE_IMAGE:=binocarlos/powerstrip-weave:latest}
 export POWERSTRIP_IMAGE=${POWERSTRIP_IMAGE:=clusterhq/powerstrip:unix-socket}
 export WEAVE_IMAGE=${WEAVE_IMAGE:=zettio/weave:latest}
