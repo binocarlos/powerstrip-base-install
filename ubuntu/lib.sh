@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
-export REAL_DOCKER_SOCKET=${REAL_DOCKER_SOCKET:=/var/run/docker.real.sock}
-export FLOCKER_CONTROL_PORT=${FLOCKER_CONTROL_PORT:=80}
-export FLOCKER_AGENT_PORT=${FLOCKER_AGENT_PORT:=4524}
+readonly REAL_DOCKER_SOCKET=${REAL_DOCKER_SOCKET:=/var/run/docker.real.sock}
+readonly FLOCKER_CONTROL_PORT=${FLOCKER_CONTROL_PORT:=80}
+readonly FLOCKER_AGENT_PORT=${FLOCKER_AGENT_PORT:=4524}
 
-export ZFS_AGENT_IMAGE=${ZFS_AGENT_IMAGE:=lmarsden/flocker-zfs-agent:latest}
-export CONTROL_SERVICE_IMAGE=${CONTROL_SERVICE_IMAGE:=lmarsden/flocker-control:latest}
-export POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:k8s-compat}
-export POWERSTRIP_WEAVE_IMAGE=${POWERSTRIP_WEAVE_IMAGE:=binocarlos/powerstrip-weave:latest}
-export POWERSTRIP_IMAGE=${POWERSTRIP_IMAGE:=clusterhq/powerstrip:unix-socket}
-export WEAVE_IMAGE=${WEAVE_IMAGE:=zettio/weave:latest}
-export WEAVETOOLS_IMAGE=${WEAVETOOLS_IMAGE:=zettio/weavetools:latest}
-export WEAVEDNS_IMAGE=${WEAVEDNS_IMAGE:=zettio/weavedns:latest}
-export WAITFORWEAVE_IMAGE=${WAITFORWEAVE_IMAGE:=binocarlos/wait-for-weave:latest}
+readonly ZFS_AGENT_IMAGE=${ZFS_AGENT_IMAGE:=lmarsden/flocker-zfs-agent:latest}
+readonly CONTROL_SERVICE_IMAGE=${CONTROL_SERVICE_IMAGE:=lmarsden/flocker-control:latest}
+readonly POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:latest}
+readonly POWERSTRIP_WEAVE_IMAGE=${POWERSTRIP_WEAVE_IMAGE:=binocarlos/powerstrip-weave:latest}
+readonly POWERSTRIP_IMAGE=${POWERSTRIP_IMAGE:=clusterhq/powerstrip:unix-socket}
+readonly WEAVE_IMAGE=${WEAVE_IMAGE:=zettio/weave:latest}
+readonly WEAVETOOLS_IMAGE=${WEAVETOOLS_IMAGE:=zettio/weavetools:latest}
+readonly WEAVEDNS_IMAGE=${WEAVEDNS_IMAGE:=zettio/weavedns:latest}
+readonly WAITFORWEAVE_IMAGE=${WAITFORWEAVE_IMAGE:=binocarlos/wait-for-weave:latest}
 
 # resolve the folder this script is in
 # this means we can point to the install.sh controller
@@ -187,7 +187,7 @@ powerstrip-base-install-run-flocker-zfs-agent() {
 
   # run zfs agent
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run --rm --name flocker-zfs-agent --privileged \
+  docker run -ti --rm --name flocker-zfs-agent --privileged \
     -v /etc/flocker:/etc/flocker \
     -v /var/run/docker.real.sock:/var/run/docker.sock \
     -v /root/.ssh:/root/.ssh \
@@ -203,7 +203,7 @@ powerstrip-base-install-run-flocker-control() {
 
   # run control service
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run --rm --name flocker-control \
+  docker run -ti --rm --name flocker-control \
     -p $FLOCKER_CONTROL_PORT:$FLOCKER_CONTROL_PORT \
     -p $FLOCKER_AGENT_PORT:$FLOCKER_AGENT_PORT \
     $CONTROL_SERVICE_IMAGE \
@@ -237,7 +237,7 @@ powerstrip-base-install-run-powerstrip-flocker() {
   powerstrip-base-install-stop-container powerstrip-flocker
   
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run --name powerstrip-flocker \
+  docker run -ti --rm --name powerstrip-flocker \
     --expose 80 \
     -e "MY_NETWORK_IDENTITY=$IP" \
     -e "FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROLIP:80/v1" \
@@ -255,7 +255,7 @@ powerstrip-base-install-run-powerstrip-weave() {
   powerstrip-base-install-stop-container weave
 
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run --name powerstrip-weave \
+  docker run -ti --rm --name powerstrip-weave \
     --expose 80 \
     -e DOCKER_SOCKET="$REAL_DOCKER_SOCKET" \
     -v $REAL_DOCKER_SOCKET:/var/run/docker.sock \
@@ -272,7 +272,7 @@ powerstrip-base-install-run-powerstrip() {
   powerstrip-base-install-wait-for-container powerstrip-weave
 
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run --name powerstrip \
+  docker run -ti --rm --name powerstrip \
     -v /var/run:/host-var-run \
     -v /etc/powerstrip-demo/adapters.yml:/etc/powerstrip/adapters.yml \
     --link powerstrip-flocker:flocker \
