@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x -e
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Make sure only root can run our script

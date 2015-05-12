@@ -158,7 +158,7 @@ powerstrip-base-install-ensure-file() {
 # run a standalone weave command
 powerstrip-base-install-weave() {
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run -ti --rm \
+  docker run --rm \
     -e DOCKER_SOCKET="$REAL_DOCKER_SOCKET" \
     -v $REAL_DOCKER_SOCKET:/var/run/docker.sock \
     $POWERSTRIP_WEAVE_IMAGE $@
@@ -187,7 +187,7 @@ powerstrip-base-install-run-flocker-zfs-agent() {
 
   # run zfs agent
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run -ti --rm --name flocker-zfs-agent --privileged \
+  docker run --rm --name flocker-zfs-agent --privileged \
     -v /etc/flocker:/etc/flocker \
     -v /var/run/docker.real.sock:/var/run/docker.sock \
     -v /root/.ssh:/root/.ssh \
@@ -203,7 +203,7 @@ powerstrip-base-install-run-flocker-control() {
 
   # run control service
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run -ti --rm --name flocker-control \
+  docker run --rm --name flocker-control \
     -p $FLOCKER_CONTROL_PORT:$FLOCKER_CONTROL_PORT \
     -p $FLOCKER_AGENT_PORT:$FLOCKER_AGENT_PORT \
     $CONTROL_SERVICE_IMAGE \
@@ -237,7 +237,7 @@ powerstrip-base-install-run-powerstrip-flocker() {
   powerstrip-base-install-stop-container powerstrip-flocker
   
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run -ti --rm --name powerstrip-flocker \
+  docker run --rm --name powerstrip-flocker \
     --expose 80 \
     -e "MY_NETWORK_IDENTITY=$IP" \
     -e "FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROLIP:80/v1" \
@@ -255,7 +255,7 @@ powerstrip-base-install-run-powerstrip-weave() {
   powerstrip-base-install-stop-container weave
 
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run -ti --rm --name powerstrip-weave \
+  docker run --rm --name powerstrip-weave \
     --expose 80 \
     -e DOCKER_SOCKET="$REAL_DOCKER_SOCKET" \
     -v $REAL_DOCKER_SOCKET:/var/run/docker.sock \
@@ -272,7 +272,7 @@ powerstrip-base-install-run-powerstrip() {
   powerstrip-base-install-wait-for-container powerstrip-weave
 
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker run -ti --rm --name powerstrip \
+  docker run --rm --name powerstrip \
     -v /var/run:/host-var-run \
     -v /etc/powerstrip-demo/adapters.yml:/etc/powerstrip/adapters.yml \
     --link powerstrip-flocker:flocker \
