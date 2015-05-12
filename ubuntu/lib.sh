@@ -79,7 +79,7 @@ EOF
 
 powerstrip-base-install-pullimage() {
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker pull $1
+  docker pull $1 || true
 }
 
 powerstrip-base-install-pullimages-master() {
@@ -113,7 +113,7 @@ powerstrip-base-install-pullimages() {
 # generic tool to stop a docker container
 powerstrip-base-install-stop-container() {
   DOCKER_HOST="unix://$REAL_DOCKER_SOCKET" \
-  docker rm -f $1
+  docker rm -f $1 || true
 }
 
 # system config for powerstrip
