@@ -6,7 +6,7 @@ readonly FLOCKER_AGENT_PORT=${FLOCKER_AGENT_PORT:=4524}
 
 readonly ZFS_AGENT_IMAGE=${ZFS_AGENT_IMAGE:=lmarsden/flocker-zfs-agent:latest}
 readonly CONTROL_SERVICE_IMAGE=${CONTROL_SERVICE_IMAGE:=lmarsden/flocker-control:latest}
-readonly POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:latest}
+readonly POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:k8s-compat}
 readonly POWERSTRIP_WEAVE_IMAGE=${POWERSTRIP_WEAVE_IMAGE:=binocarlos/powerstrip-weave:latest}
 readonly POWERSTRIP_IMAGE=${POWERSTRIP_IMAGE:=clusterhq/powerstrip:unix-socket}
 readonly WEAVE_IMAGE=${WEAVE_IMAGE:=zettio/weave:0.9.0}
