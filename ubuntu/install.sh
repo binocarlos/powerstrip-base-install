@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x -e
+set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
