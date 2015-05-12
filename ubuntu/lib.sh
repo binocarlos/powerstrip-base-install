@@ -9,9 +9,9 @@ readonly CONTROL_SERVICE_IMAGE=${CONTROL_SERVICE_IMAGE:=lmarsden/flocker-control
 readonly POWERSTRIP_FLOCKER_IMAGE=${POWERSTRIP_FLOCKER_IMAGE:=clusterhq/powerstrip-flocker:latest}
 readonly POWERSTRIP_WEAVE_IMAGE=${POWERSTRIP_WEAVE_IMAGE:=binocarlos/powerstrip-weave:latest}
 readonly POWERSTRIP_IMAGE=${POWERSTRIP_IMAGE:=clusterhq/powerstrip:unix-socket}
-readonly WEAVE_IMAGE=${WEAVE_IMAGE:=zettio/weave:latest}
-readonly WEAVETOOLS_IMAGE=${WEAVETOOLS_IMAGE:=zettio/weavetools:latest}
-readonly WEAVEDNS_IMAGE=${WEAVEDNS_IMAGE:=zettio/weavedns:latest}
+readonly WEAVE_IMAGE=${WEAVE_IMAGE:=zettio/weave:0.9.0}
+readonly WEAVETOOLS_IMAGE=${WEAVETOOLS_IMAGE:=zettio/weavetools:0.9.0}
+readonly WEAVEDNS_IMAGE=${WEAVEDNS_IMAGE:=zettio/weavedns:0.9.0}
 readonly WAITFORWEAVE_IMAGE=${WAITFORWEAVE_IMAGE:=binocarlos/wait-for-weave:latest}
 
 # resolve the folder this script is in
